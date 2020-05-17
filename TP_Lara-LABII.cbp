@@ -33,8 +33,10 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="clientes.h" />
+		<Unit filename="configuracion.h" />
 		<Unit filename="funciones.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="pedidos.h" />
 		<Unit filename="platos.h" />
 		<Unit filename="prototipos.h" />
 		<Unit filename="rlutil.h" />
