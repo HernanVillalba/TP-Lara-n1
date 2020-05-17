@@ -13,7 +13,7 @@ using namespace rlutil;
 
 int main()
 {
-//    presentacion();
+    presentacion();
     setlocale(LC_ALL, "SPANISH");
     main_principal();
     anykey();
