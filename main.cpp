@@ -15,7 +15,7 @@ int main()
 {
     presentacion();
     setlocale(LC_ALL, "SPANISH");
-    main_principal();
+    main_principal(); //está en el archivo "funciones.h"//
     anykey();
     return 0;
 }
