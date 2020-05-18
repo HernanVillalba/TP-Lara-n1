@@ -168,8 +168,8 @@ void main_principal(){
 void dibujar_menu_principal(int *opc_menu_principal){
     crear_archivos_pla_cli_ped();
     setColor(WHITE);
-    cout<<"MENÚ PRINCIPAL"<<endl;
-    cout<<"=============="<<endl;
+    cout<<"     MENÚ PRINCIPAL"<<endl;
+    cout<<"======================"<<endl;
     cout<<"[1] PLATOS"<<endl;
     cout<<"[2] CLIENTES"<<endl;
     cout<<"[3] PEDIDOS"<<endl;
@@ -973,16 +973,24 @@ bool guardar_cliente_en_archivo(Clientes var_cli){
 }
 
 void listar_todos_los_clientes(){
+    int cant = cantidad_clientes();
     Clientes var_cli;
+    for(int i=0;i<cant;i++){
+        var_cli = leer_cliente(var_cli,i);
+        mostrar_cliente(var_cli);
+    }
+}
+
+Clientes leer_cliente(Clientes var_cli,int pos){
     FILE *p = fopen(ARCHIVO_CLIENTE,"rb");
     if(p == NULL){
         cout<<"* ERROR --- No se pudo abrir el archivo para leerlo."<<endl;
-        return;
+        return var_cli;
     }
-    while(fread(&var_cli,sizeof(Clientes),1,p) == 1){
-        mostrar_cliente(var_cli);
-    }
+    fseek(p,pos*sizeof(Clientes),SEEK_SET);
+    fread(&var_cli,sizeof(Clientes),1,p);
     fclose(p);
+    return var_cli;
 }
 
 void mostrar_cliente(Clientes var_cli){
@@ -1110,15 +1118,8 @@ void listar_cliente_x_ID(){
 
 void mostrar_cliente_x_ID(int pos){
     Clientes var_cli;
-    FILE *p = fopen(ARCHIVO_CLIENTE,"rb");
-    if(p == NULL){
-        cout<<"* ERROR --- No se pudo abir el archivo para mostrar el cliente."<<endl;
-        return;
-    }
-    fseek(p,pos*sizeof(Clientes),SEEK_SET);
-    fread(&var_cli,sizeof(Clientes),1,p);
+    var_cli = leer_cliente(var_cli,pos);
     mostrar_cliente(var_cli);
-    fclose(p);
 }
 
 void eliminar_cliente(){
@@ -1664,8 +1665,8 @@ bool sobreescribir_pedido(int pos){
 
 ////////////////////////////////////FUNCIONES SUBMENU_CONFIGURACION////////////////////////////////////
 void dibujar_submenu_configuracion(int *opc_submenu_configuracion){
-    cout<<"MENÚ CONFIGURACIÓN"<<endl;
-    cout<<"=================="<<endl;
+    cout<<"        MENÚ CONFIGURACIÓN"<<endl;
+    cout<<"================================"<<endl;
     cout<<"[1] - REALIZAR COPIA DE SEGURIDAD"<<endl;
     cout<<"[2] - RESTAURAR COPIA DE SEGURIDAD"<<endl;
     cout<<"================================"<<endl;
@@ -1676,6 +1677,23 @@ void dibujar_submenu_configuracion(int *opc_submenu_configuracion){
 }
 
 void realizar_copia_seguridad(){
+    char opc;
+    cout<<"                   Realizar copia de seguridad."<<endl;
+    cout<<"======================================================================="<<endl;
+    cout<<"Está seguro que desea realizar una copia de seguridad de cada archivo?"<<endl;
+    cout<<"[1] - Si."<<endl;
+    cout<<"[ ] - Cualquier otro numero para NO."<<endl;
+    cout<<"======================================================================="<<endl;
+    cout<<"Opción: ";
+    cin>>opc;
+    cls();
+    if(opc != '1'){
+        setColor(GREEN);
+        cout<<"- No se realizaron las copias de seguridad."<<endl;
+        setColor(WHITE);
+        return;
+    }
+
     if(!crear_copias_seguridad()){
         setColor(RED);
         cout<<"- Hubo un error al crear la copia de seguridad de alguno de los tres archivos."<<endl;
@@ -1951,6 +1969,23 @@ void listar_copias_seguridad(){
 }
 
 void restaurar_copia_seguridad(){
+    char opc;
+    cout<<"             Restaurar copia de seguridad."<<endl;
+    cout<<"==================================================="<<endl;
+    cout<<"Está seguro que desea restaurar copia de seguridad?"<<endl;
+    cout<<"[1] - Si."<<endl;
+    cout<<"[ ] - Cualquier otro número para NO."<<endl;
+    cout<<"==================================================="<<endl;
+    cout<<"Opción: ";
+    cin>>opc;
+    cls();
+    if(opc != '1'){
+        setColor(GREEN);
+        cout<<"- No se restauraron las copias de seguridad."<<endl;
+        setColor(WHITE);
+        return;
+    }
+    //archivo platos;
     if(restaurar_archivo_platos()){
         setColor(GREEN);
         cout<<"- Archivo de platos restaurado correctamente."<<endl;
@@ -1962,7 +1997,7 @@ void restaurar_copia_seguridad(){
         cout<<"- No se pudo restaurar el archivo de platos."<<endl;
         setColor(WHITE);
     }
-
+    //archivo clientes;
     if(restaurar_archivo_clientes()){
         setColor(GREEN);
         cout<<"- Archivo de clientes restaurado correctamente."<<endl;
@@ -1974,7 +2009,7 @@ void restaurar_copia_seguridad(){
         cout<<"- No se pudo restaurar el archivo de clientes."<<endl;
         setColor(WHITE);
     }
-
+    //archivo pedidos;
     if(restaurar_archivo_pedidos()){
         setColor(GREEN);
         cout<<"- Archivo de pedidos restaurado correctamente."<<endl;

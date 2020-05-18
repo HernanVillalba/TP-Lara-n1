@@ -10,12 +10,7 @@ void submenu_configuracion(){
             case 1: realizar_copia_seguridad(); break;
             case 2: restaurar_copia_seguridad(); break;
             case 19991: listar_copias_seguridad(); break;
-            default:{
-                setColor(RED);
-                cout<<"Opción incorrecta!!!"<<endl;
-                setColor(WHITE);
-            }break;
-
+            default: setColor(RED);cout<<"Opción incorrecta!!!"<<endl;setColor(WHITE); break;
         }
         anykey();
         cls();

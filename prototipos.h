@@ -143,6 +143,10 @@ bool guardar_cliente_en_archivo(Clientes);
 
 void listar_todos_los_clientes();
 
+void ordenar_clientes(Clientes*,int);
+
+Clientes leer_cliente(Clientes,int);
+
 void mostrar_cliente(Clientes);
 
 void mostrar_cantidad_clientes();
